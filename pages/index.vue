@@ -7,7 +7,9 @@ const config = useRuntimeConfig();
 const url = config.public.baseURL;
 
 try {
-	const { data: result } = await useFetch<HomeResponse>(`${url}home`);
+	const { data: result } = await useFetch<HomeResponse>(`${url}home`, {
+		mode: "no-cors",
+	});
 	const projects = (result?.value?.blocks[5]?.projects || []).map((p) => ({
 		id: p.id,
 		title: p.title,
