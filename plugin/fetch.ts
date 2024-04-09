@@ -26,6 +26,7 @@ export const login = async (formData: LoginForm) => {
 		const response: any = await $fetch(
 			`${url}login/signin`,
 			{
+				mode: "no-cors",
 				method: "POST",
 				body: formData,
 			}
