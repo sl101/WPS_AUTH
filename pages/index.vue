@@ -6,10 +6,47 @@ const authStore = useAuthStore();
 const config = useRuntimeConfig();
 const url = config.public.baseURL;
 
+//if (authStore.authToken) {
+//	try {
+//		//const { data: result } = await useFetch<HomeResponse>(`${url}home`, {
+//		const { data: result } = await useFetch<HomeResponse>(
+//			`https://sat7.faulio.com/api/v1/member/project`,
+//			{
+//				//mode: "no-cors",
+//				method: "GET",
+//				headers: {
+//					Authorization: authStore.authToken,
+//					devicetype: "browser",
+//					deviceid: "51f0e490-f6b1-11ee-a1ce-d940c222a976",
+//					//deviceid: authStore.deviceID,
+//					profile: authStore.profileID,
+//					lang: "en",
+//					origin: "https://sat7plus.org",
+//					referer: "https://sat7plus.org/",
+//				},
+//				query: {
+//					user_list: "1",
+//					page: "1",
+//				},
+//			}
+//		);
+//		console.log("result: ", result?.value.blocks.projects);
+//		const projects = (result?.value?.blocks[5]?.projects || []).map((p) => ({
+//			id: p.id,
+//			title: p.title,
+//			image: p.image,
+//			isFavorite: p.favorite,
+//		}));
+//		projectStore.set(projects);
+//	} catch (error) {
+//		console.log(error);
+//	}
+//} else {
 try {
 	const { data: result } = await useFetch<HomeResponse>(`${url}home`, {
 		mode: "no-cors",
 	});
+	console.log("🚀 ~ result:", result.value);
 	const projects = (result?.value?.blocks[5]?.projects || []).map((p) => ({
 		id: p.id,
 		title: p.title,
@@ -20,6 +57,7 @@ try {
 } catch (error) {
 	console.log(error);
 }
+//}
 </script>
 
 <template>
@@ -42,12 +80,16 @@ try {
 		<section
 			class="_container relative flex justify-between items-center gap-2 z-20"
 		>
-			<ProjectItem
-				v-for="project of projectStore.projects"
-				:key="project.id"
-				:project="project"
-				:status="authStore.isAuth"
-			/>
+			<Swiper
+				:modules="[SwiperNavigation]"
+				:slides-per-view="5"
+				:space-between="10"
+				:navigation="true"
+			>
+				<SwiperSlide v-for="project of projectStore.projects" :key="project.id">
+					<ProjectItem :project="project" :status="authStore.isAuth" />
+				</SwiperSlide>
+			</Swiper>
 		</section>
 	</div>
 </template>

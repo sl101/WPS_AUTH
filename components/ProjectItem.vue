@@ -51,7 +51,7 @@ const isFavoriteToggle = () => {
 
 <template>
 	<article class="text-white">
-		<img :src="project.image" :alt="project.title" />
+		<img loading="lazy" :src="project.image" :alt="project.title" />
 		<span>ID: {{ project.id }} </span>
 		<h3>{{ project.title }}</h3>
 		<button @click="isFavoriteToggle">

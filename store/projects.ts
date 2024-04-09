@@ -13,6 +13,9 @@ export const useProjectsStore = defineStore("projectsStore", {
 	getters: {
 		favoritesProjects(): Project[]{
 			return this.projects.filter((project) => project.isFavorite)
+		},
+		getAllProjects():Project[]{
+			return this.projects
 		}
 	},
 	actions:{
@@ -24,7 +27,7 @@ export const useProjectsStore = defineStore("projectsStore", {
 		},
 		//async setProjects(){
 		//	try {
-		//		const { data: result } = await axios(`${url}home`);
+		//		const result = await axios(`${url}home`);
 		//		const projects = (result?.value?.blocks[2]?.projects || []).map((project: any) => ({
 		//			id: project.id,
 		//			title: project.title,

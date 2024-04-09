@@ -26,7 +26,8 @@ const handleSubmit = async () => {
 		password: "Qwerty1!",
 		device_os: "Windows",
 		device_type: "browser",
-		uniq_device_id: authStore.deviceID,
+		//uniq_device_id: authStore.deviceID,
+		uniq_device_id: "51f0e490-f6b1-11ee-a1ce-d940c222a976",
 	};
 	//console.log("🚀 ~ handleSubmit ~ formData:", formData);
 

@@ -4,7 +4,7 @@ export default defineNuxtConfig({
 	css: [
     '@/assets/main.css',
   ],
-	modules: ["@nuxtjs/tailwindcss", "@nuxt/image", "@pinia/nuxt", 'nuxt-icon'],
+	modules: ["@nuxtjs/tailwindcss", "@nuxt/image", "@pinia/nuxt",'nuxt-swiper'],
 	pinia:{ storesDirs: ["./store/**"]},
 	runtimeConfig: {
     public: {

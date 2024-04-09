@@ -26,12 +26,12 @@ export const login = async (formData: LoginForm) => {
 		const response: any = await $fetch(
 			`${url}login/signin`,
 			{
-				mode: "no-cors",
+				//mode: "no-cors",
 				method: "POST",
 				body: formData,
 			}
 		);
-		return response?.data; 
+		return response; 
 	} catch (error) {
 		console.error("Error:", error);
 	}

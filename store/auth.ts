@@ -6,7 +6,7 @@ import { uuid } from "vue-uuid";
 //const config = useRuntimeConfig();
 //const url = config.public.baseURL;
 
-const deviceID = () => {
+const genDeviceID = () => {
   if (process.client) {
     const device_ID = localStorage.getItem("device_id");
     if (device_ID) {
@@ -20,12 +20,13 @@ const deviceID = () => {
         return newID;
       }
     } else {
+			console.error("no device_id generate new");
       const newID = uuid.v1();
       localStorage.setItem("device_id", JSON.stringify(newID));
       return newID;
     }
   }
-  return uuid.v1();
+  return "";
 };
 
 //const getToken = () => {
@@ -42,7 +43,8 @@ const defaultValue: { user: AuthStore} = {
 		auth_token: "", 
 		unique_id: "", 
 		uuid: "",
-		device_id: deviceID(),
+		//device_id:  genDeviceID(),
+		device_id:  "51f0e490-f6b1-11ee-a1ce-d940c222a976",
 		profile_id: "",
 		status: false
 	}
