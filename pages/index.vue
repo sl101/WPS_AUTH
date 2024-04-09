@@ -1,24 +1,20 @@
 <script setup lang="ts">
-import type { HomeResponse } from "../types";
+import type { HomeResponse } from "~/types";
 
-definePageMeta({
-	title: "Home page",
-});
-
-if (process.client) {
-	localStorage.setItem(
-		"device_id",
-		JSON.stringify("kr5lvcexjsm27h8c3paa2poglunu3z6i")
-	);
-}
-
-let arr: any[] = [];
+const projectStore = useProjectsStore();
+const authStore = useAuthStore();
+const config = useRuntimeConfig();
+const url = config.public.baseURL;
 
 try {
-	const { data: projects } = await useFetch<HomeResponse>(
-		"https://sat7.faulio.com/api/v1/home"
-	);
-	arr = projects?.value?.blocks[5]?.projects || [];
+	const { data: result } = await useFetch<HomeResponse>(`${url}home`);
+	const projects = (result?.value?.blocks[5]?.projects || []).map((p) => ({
+		id: p.id,
+		title: p.title,
+		image: p.image,
+		isFavorite: p.favorite,
+	}));
+	projectStore.set(projects);
 } catch (error) {
 	console.log(error);
 }
@@ -31,6 +27,9 @@ try {
 		<Head>
 			<Title>Home page</Title>
 		</Head>
+		<h1 class="absolute z-30 top-20 left-20 text-white">
+			Status {{ authStore.isAuth }}
+		</h1>
 		<div
 			class="absolute z-0 top-0 left-0 h-full w-screen bg-no-repeat bg-top bg-cover before:absolute before:top-0 before:left-0 before:h-full before:w-screen before:z-10 before:bg-black before:opacity-60"
 			:style="{
@@ -38,18 +37,15 @@ try {
 			}"
 		></div>
 
-		<ul
+		<section
 			class="_container relative flex justify-between items-center gap-2 z-20"
 		>
-			<li v-for="item in arr" :key="item.id" class="text-white">
-				<article>
-					<h3>{{ item.title }}</h3>
-					<span>ID: {{ item.id }} </span>
-					<button>
-						{{ item.favorite }}
-					</button>
-				</article>
-			</li>
-		</ul>
+			<ProjectItem
+				v-for="project of projectStore.projects"
+				:key="project.id"
+				:project="project"
+				:status="authStore.isAuth"
+			/>
+		</section>
 	</div>
 </template>

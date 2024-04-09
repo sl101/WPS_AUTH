@@ -1,14 +1,39 @@
 import { defineStore } from 'pinia';
+import type { AuthStore } from '~/types';
+import { uuid } from "vue-uuid";
+//import axios from "axios"; 
 
-interface AuthStore{
-	email: string,
-	name: string,
-	auth_token: string,
-	unique_id: string,
-	uuid: string,
-	status: boolean
-}
+//const config = useRuntimeConfig();
+//const url = config.public.baseURL;
 
+const deviceID = () => {
+  if (process.client) {
+    const device_ID = localStorage.getItem("device_id");
+    if (device_ID) {
+      try {
+        return JSON.parse(device_ID);
+      } catch (error) {
+        console.error("Error parsing device_id from localStorage:", error);
+        // Generate a new device ID and store it in localStorage
+        const newID = uuid.v1();
+        localStorage.setItem("device_id", JSON.stringify(newID));
+        return newID;
+      }
+    } else {
+      const newID = uuid.v1();
+      localStorage.setItem("device_id", JSON.stringify(newID));
+      return newID;
+    }
+  }
+  return uuid.v1();
+};
+
+//const getToken = () => {
+//  if (process.client) {
+//    return JSON.parse(localStorage.getItem("auth_token") || "");
+//  }
+//  return "";
+//};
 
 const defaultValue: { user: AuthStore} = {
 	user:{
@@ -16,7 +41,9 @@ const defaultValue: { user: AuthStore} = {
 		name: "",
 		auth_token: "", 
 		unique_id: "", 
-		uuid: "", 
+		uuid: "",
+		device_id: deviceID(),
+		profile_id: "",
 		status: false
 	}
 }
@@ -25,6 +52,9 @@ export const useAuthStore = defineStore("auth", {
 	state: ()=> defaultValue,
 	getters: {
 		isAuth: state=> state.user.status,
+		authToken: state => state.user.auth_token,
+		deviceID: state => state.user.device_id,
+		profileID: state => state.user.profile_id,
 	},
 	actions:{
 		clear(){
@@ -32,7 +62,29 @@ export const useAuthStore = defineStore("auth", {
 		},
 		set(input: AuthStore){
 			this.$patch({user: input})
-		}
+		},
+		//async registerUser($email: string, $password: string){
+		//	const formData = {
+		//		//email: $email,
+		//		//password: $password,
+		//		email: "v.zhevaga@gmail.com",
+		//		password: "Qwerty1!",
+		//		device_os: "Windows",
+		//		device_type: "browser",
+		//		uniq_device_id: this.deviceID,
+		//	};
+		//	try {
+    //    const response = await axios.post(`${url}login/signin`,
+		//		{
+		//			method: "POST",
+		//			body: formData,
+		//		})
+		//		console.log("🚀 ~ registerUser ~ userData:", response.data)
+        
+    //  } catch (error) {
+    //    console.log(error)
+    //  } 
+		//}
 	}
 })
 

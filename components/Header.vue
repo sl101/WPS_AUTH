@@ -1,5 +1,7 @@
 <template>
-	<header class="relative z-50 bg-cyan-071 text-white text-base h-20">
+	<header
+		class="relative z-50 bg-cyan-071 text-white text-base h-20 font-Roboto"
+	>
 		<div class="_container flex justify-between items-center gap-5 h-full">
 			<img
 				alt="SAT-7 PLUS logo"

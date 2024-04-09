@@ -1,59 +1,60 @@
 <script setup lang="ts">
 import { useAuthStore } from "../store/auth";
+import { login } from "../plugin/fetch";
 import { uuid } from "vue-uuid";
+import type { AuthStore } from "~/types";
 
-const emailRef = ref("");
-const passwordRef = ref("");
-
-//const useIsLoadingStore = useIsLoadingStore();
 const authStore = useAuthStore();
-const router = useRouter();
+const showPassword = ref(false);
 
+const form = reactive({
+	email: "",
+	password: "",
+});
+
+//let deviceId = "a7fccd00-f660-11ee-bfa6-a3fa65d1a4a9";
+//if (process.client) {
+//	deviceId = JSON.parse(localStorage.getItem("device_id") || "");
+//}
 // Отправляем POST-запрос
 const handleSubmit = async () => {
 	//console.log("start fetch");
-	// Данные, которые нужно отправить в теле запроса
-	const data = {
+	const formData = {
+		//email: form.email,
+		//password: form.password,
 		email: "v.zhevaga@gmail.com",
 		password: "Qwerty1!",
 		device_os: "Windows",
 		device_type: "browser",
-		uniq_device_id: uuid.v1(),
-		//uniq_device_id: process.client
-		//	? JSON.parse(localStorage.getItem("device_id") || "")
-		//	: "",
+		uniq_device_id: authStore.deviceID,
 	};
+	//console.log("🚀 ~ handleSubmit ~ formData:", formData);
 
-	try {
-		const response = await $fetch(
-			"https://sat7.faulio.com/api/v1/login/signin",
-			{
-				method: "POST",
-				body: data,
-			}
-		);
-		//await account.createEmailSession(emailRef.value, passwordRef.value);
-		if (response) {
-			console.log("Response data:", response);
-			authStore.set({
-				email: response.data.email,
-				name: response.data.name,
-				auth_token: response.data.auth_token,
-				unique_id: response.data.unique_id,
-				uuid: response.data.uuid,
-				status: true,
-			});
-			//router.push({ path: "/" });
-		}
-		//token = response?.auth_token;
-	} catch (error) {
-		console.error("Error:", error);
+	const response = await login(formData);
+	//console.log("🚀 ~ handleSubmit ~ response:", response);
+	if (response) {
+		const authData: AuthStore = {
+			email: response?.data.email,
+			name: response?.data.name,
+			auth_token: response?.data.auth_token,
+			unique_id: response?.data.unique_id,
+			uuid: response?.data.uuid,
+			profile_id: response?.profiles[0].id,
+			status: true,
+		};
+		//console.log("🚀 ~ handleSubmit ~ response.set:", response.set);
+		authStore.set(authData);
 	}
+	form.email = "";
+	form.password = "";
+
+	//console.log("🚀 ~ authStore:", authStore);
+	//console.log("🚀 ~ authStore:", authStore.authToken);
 };
 
-//if (process.client) {
-//	localStorage.setItem("auth_token", JSON.stringify(token));
-//}
+const togglePasswordVisibility = () => {
+	showPassword.value = !showPassword.value;
+};
 </script>
 
 <template>
@@ -75,8 +76,8 @@ const handleSubmit = async () => {
 				<span>Email</span>
 				<div class="relative mt-1">
 					<input
-						v-model="emailRef"
-						class="_input border-2 border-cyan-730 transition focus:border-red-620 hover:border-black"
+						v-model="form.email"
+						class="_input border-2 border-cyan-730 transition focus:border-red-620 hover:border-black text-black"
 						placeholder=""
 						type="email"
 					/>
@@ -87,14 +88,27 @@ const handleSubmit = async () => {
 				<span>Password</span>
 				<div class="relative mt-1">
 					<input
-						v-model="passwordRef"
+						v-model="form.password"
 						placeholder=""
-						class="_input border-2 border-cyan-730 transition focus:border-red-620 hover:border-black"
-						type="password"
+						class="_input border-2 border-cyan-730 transition focus:border-red-620 hover:border-black text-black"
+						:type="showPassword ? 'text' : 'password'"
 					/>
 
-					<button class="absolute top-1/2 right-2 text-black outline-none">
-						open
+					<button
+						type="button"
+						class="absolute z-30 w-10 h-full top-1/2 right-0 -translate-y-1/2 flex justify-center items-center text-black outline-none"
+						@click="togglePasswordVisibility"
+					>
+						<img
+							v-if="showPassword"
+							src="../assets/icons/open_eye.svg"
+							alt="icon open eye"
+						/>
+						<img
+							v-else
+							src="../assets/icons/closed_eye.svg"
+							alt="icon closed eye"
+						/>
 					</button>
 				</div>
 			</label>
@@ -136,3 +150,4 @@ const handleSubmit = async () => {
 	border-radius: 6px;
 }
 </style>
+../plugin/fetch

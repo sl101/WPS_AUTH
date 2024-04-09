@@ -12,3 +12,30 @@ export interface HomeResponse {
     }[];
   }[];
 }
+
+export interface LoginForm{
+		email: string,
+		password: string,
+		device_os: string,
+		device_type: string,
+		uniq_device_id: string,
+}
+
+export interface Project {
+  id: string;
+  title: string;
+  image?: string;
+  isFavorite?: boolean;
+}
+
+export interface AuthStore{
+	email: string,
+	name: string,
+	auth_token: string,
+	unique_id: string,
+	uuid: string,
+	device_id: string,
+	profile_id:string,
+	status: boolean
+}
+
