@@ -1,8 +1,7 @@
-//import axios from "axios";
 import type { LoginForm } from "~/types";
 
-//const config = useRuntimeConfig();
 const url = "https://sat7.faulio.com/api/v1/"
+//const url = "/api/v1/";
 
 export const login = async (formData: LoginForm) => {
 	try {
@@ -13,7 +12,6 @@ export const login = async (formData: LoginForm) => {
 				body: formData,
 			}
 		);
-		console.log("🚀 ~ login ~ response:", response)
 		localStorage.setItem("auth_token", JSON.stringify(response.data.auth_token))
 		return response; 
 	} catch (error) {

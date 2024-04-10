@@ -6,6 +6,7 @@ import axios from "axios";
 //const config = useRuntimeConfig();
 //const url = config.public.baseURL;
 const url = "https://sat7.faulio.com/api/v1/";
+//const url = "/api/v1/";
 
 const defaultValue: {projects: Project[]} = {
 	projects: []}
@@ -29,7 +30,7 @@ export const useProjectsStore = defineStore("projectsStore", {
 		},
 		async setAllProjects(){
 			try {
-				await axios(`${url}home`, {mode: "no-cors", method: "GET",})
+				await axios(`${url}home`)
 				.then(response => {
 					const projectsData =  (response?.data?.blocks[5]?.projects || []).map((project: any) => ({
 						id: project.id,
