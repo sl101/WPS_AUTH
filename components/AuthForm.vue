@@ -28,7 +28,6 @@ const handleSubmit = async () => {
 	//console.log("🚀 ~ handleSubmit ~ formData:", formData);
 
 	const response = await login(formData);
-	//console.log("🚀 ~ handleSubmit ~ response:", response);
 	if (response) {
 		const authData: AuthStore = {
 			email: response?.data.email,
@@ -39,14 +38,11 @@ const handleSubmit = async () => {
 			profile_id: response?.profiles[0].id,
 			status: true,
 		};
-		//console.log("🚀 ~ handleSubmit ~ response.set:", response.set);
 		authStore.set(authData);
+		router.push("/");
 	}
 	form.email = "";
 	form.password = "";
-	router.push("/");
-	//console.log("🚀 ~ authStore:", authStore);
-	//console.log("🚀 ~ authStore:", authStore.authToken);
 };
 
 const togglePasswordVisibility = () => {

@@ -29,7 +29,7 @@ export const useProjectsStore = defineStore("projectsStore", {
 		},
 		async setAllProjects(){
 			try {
-				await axios(`${url}home`)
+				await axios(`${url}home`, {mode: "no-cors", method: "GET",})
 				.then(response => {
 					const projectsData =  (response?.data?.blocks[5]?.projects || []).map((project: any) => ({
 						id: project.id,
