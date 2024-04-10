@@ -1,3 +1,12 @@
+<script setup lang="ts">
+const authStore = useAuthStore();
+const router = useRouter();
+
+const logout = () => {
+	authStore.clear();
+	router.push("/");
+};
+</script>
 <template>
 	<header
 		class="relative z-50 bg-cyan-071 text-white text-base h-20 font-Roboto"
@@ -11,7 +20,8 @@
 				src="https://sat7plus.org/images/logo.png"
 			/>
 			<Navigathions />
-			<NuxtLink to="/auth/sign-in">Login</NuxtLink>
+			<button v-if="authStore.isAuth" @click="logout">Sing out</button>
+			<NuxtLink v-else to="/auth/sign-in">Login</NuxtLink>
 		</div>
 	</header>
 </template>

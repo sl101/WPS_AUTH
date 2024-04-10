@@ -13,13 +13,8 @@ const form = reactive({
 	password: "",
 });
 
-//let deviceId = "a7fccd00-f660-11ee-bfa6-a3fa65d1a4a9";
-//if (process.client) {
-//	deviceId = JSON.parse(localStorage.getItem("device_id") || "");
-//}
 // Отправляем POST-запрос
 const handleSubmit = async () => {
-	//console.log("start fetch");
 	const formData = {
 		//email: form.email,
 		//password: form.password,
