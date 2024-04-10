@@ -1,15 +1,15 @@
 //import axios from "axios";
 import type { LoginForm } from "~/types";
 
-const config = useRuntimeConfig();
-const url = config.public.baseURL
+//const config = useRuntimeConfig();
+const url = "https://sat7.faulio.com/api/v1/"
 
 export const login = async (formData: LoginForm) => {
 	try {
 		const response: any = await $fetch(
 			`${url}login/signin`,
 			{
-				//mode: "no-cors",
+				mode: "no-cors",
 				method: "POST",
 				body: formData,
 			}

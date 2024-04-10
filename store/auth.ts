@@ -4,7 +4,7 @@ import { uuid } from "vue-uuid";
 //import axios from "axios"; 
 
 //const config = useRuntimeConfig();
-//const url = config.public.baseURL;
+const url = "https://sat7.faulio.com/api/v1/"
 
 const genDeviceID = () => {
   if (process.client) {
