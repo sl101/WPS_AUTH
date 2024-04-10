@@ -30,13 +30,14 @@ export const useProjectsStore = defineStore("projectsStore", {
 		async setAllProjects(){
 			try {
 				await axios(`${url}home`)
-				.then(result => {
-					const projectsData =  (result?.data?.blocks[5]?.projects || []).map((project: any) => ({
+				.then(response => {
+					const projectsData =  (response?.data?.blocks[5]?.projects || []).map((project: any) => ({
 						id: project.id,
 						title: project.title,
 						image: project.image,
 						isFavorite: project.favorite,
 					}));
+					console.log("🚀 ~ setAllProjects ~ response:", response)
 					console.log("🚀 ~ setAllProjects ~ projectsData:", projectsData)
 				this.projects = projectsData
 			})
@@ -71,9 +72,10 @@ export const useProjectsStore = defineStore("projectsStore", {
 						isFavorite: project.favorite,
 					}));
 					this.projects = this.projects.map(project=> {
-						if(projectsData.containce(project)){
-							project.isFavorite = true;
-						}
+						const matchingProject = projectsData.find((item:any) => item.id === project.id);
+        if (matchingProject) {
+          return { ...project, isFavorite: matchingProject.isFavorite };
+        }
 						return project;
 					})
 			})

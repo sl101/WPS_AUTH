@@ -14,6 +14,8 @@ export const login = async (formData: LoginForm) => {
 				body: formData,
 			}
 		);
+		console.log("🚀 ~ login ~ response:", response)
+		localStorage.setItem("auth_token", JSON.stringify(response.data.auth_token))
 		return response; 
 	} catch (error) {
 		console.error("Error:", error);
