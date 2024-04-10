@@ -38,4 +38,3 @@ export interface AuthStore{
 	profile_id:string,
 	status: boolean
 }
-
