@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { useAuthStore } from "../store/auth";
 import { login } from "../plugin/fetch";
-import { uuid } from "vue-uuid";
+import { useRouter } from "vue-router";
 import type { AuthStore } from "~/types";
 
 const authStore = useAuthStore();
 const showPassword = ref(false);
+const router = useRouter();
 
 const form = reactive({
 	email: "",
@@ -48,7 +49,7 @@ const handleSubmit = async () => {
 	}
 	form.email = "";
 	form.password = "";
-
+	router.push("/");
 	//console.log("🚀 ~ authStore:", authStore);
 	//console.log("🚀 ~ authStore:", authStore.authToken);
 };

@@ -8,6 +8,7 @@ export default <Partial<Config>>{
 				cyan: {
 					"071": "#071a3b",
 					"730": "#7286a8",
+					"740": "rgba(30, 60, 100, 0.8)",
 				},
 				red:{
 					"620":"#d22630"

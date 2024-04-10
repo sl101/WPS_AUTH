@@ -6,7 +6,20 @@ import type { Project } from '~/types';
 //const url = config.public.baseURL;
 
 const defaultValue: {projects: Project[]} = {
-	projects: []}
+	projects: [
+		{
+			id:"1",
+			title: "project.title",
+			image: "https:\/\/sat7.faulio.com\/storage\/mediagallery\/5c\/99\/fullhd_58275d168714db41ffd2af3f6d29579014e7d01b.jpg",
+			isFavorite: false,
+		},
+		{
+			id:"2",
+			title: "project.title",
+			image: "https:\/\/sat7.faulio.com\/storage\/mediagallery\/5c\/99\/fullhd_58275d168714db41ffd2af3f6d29579014e7d01b.jpg",
+			isFavorite: true,
+		}
+	]}
 
 export const useProjectsStore = defineStore("projectsStore", {
 	state: ()=> defaultValue ,
