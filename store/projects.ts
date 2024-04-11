@@ -1,12 +1,9 @@
 import { defineStore } from 'pinia';
 import type { Project } from '~/types';
-
 import axios from "axios"; 
 
-//const config = useRuntimeConfig();
-//const url = config.public.baseURL;
 const url = "https://sat7.faulio.com/api/v1/";
-//const url = "/api/v1/";
+const temp_device_id =  "51f0e490-f6b1-11ee-a1ce-d940c222a976";
 
 const defaultValue: {projects: Project[]} = {
 	projects: []}
@@ -32,14 +29,12 @@ export const useProjectsStore = defineStore("projectsStore", {
 			try {
 				await axios(`${url}home`)
 				.then(response => {
-					const projectsData =  (response?.data?.blocks[5]?.projects || []).map((project: any) => ({
+					const projectsData =  (response?.data?.blocks[2]?.projects || []).map((project: any) => ({
 						id: project.id,
 						title: project.title,
 						image: project.image,
 						isFavorite: project.favorite,
 					}));
-					console.log("🚀 ~ setAllProjects ~ response:", response)
-					console.log("🚀 ~ setAllProjects ~ projectsData:", projectsData)
 				this.projects = projectsData
 			})
 			
@@ -55,8 +50,7 @@ export const useProjectsStore = defineStore("projectsStore", {
 					headers: {
 					Authorization: authStore.authToken,
 					devicetype: "browser",
-					deviceid: "51f0e490-f6b1-11ee-a1ce-d940c222a976",
-					//deviceid: authStore.deviceID,
+					deviceid: temp_device_id,
 					profile: authStore.profileID,
 					lang: "en",
 					},
@@ -65,13 +59,14 @@ export const useProjectsStore = defineStore("projectsStore", {
 					page: "1",
 				},
 				})
-				.then(result => {
-					const projectsData =  (result?.data?.blocks[0]?.projects || []).map((project: any) => ({
+				.then(response => {
+					const projectsData =  (response?.data?.blocks[0]?.projects || []).map((project: any) => ({
 						id: project.id,
 						title: project.title,
 						image: project.image,
 						isFavorite: project.favorite,
 					}));
+
 					this.projects = this.projects.map(project=> {
 						const matchingProject = projectsData.find((item:any) => item.id === project.id);
         if (matchingProject) {

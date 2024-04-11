@@ -7,7 +7,6 @@ const projectStore = useProjectsStore();
 		class="relative z-0 top-0 left-0 flex justify-center items-center h-screen w-full mt-[-80px]"
 	>
 		<Head>
-			<!--<Title>{{ title }}</Title>-->
 			<Title>Home page</Title>
 		</Head>
 		<div
@@ -23,12 +22,12 @@ const projectStore = useProjectsStore();
 			<Swiper
 				class="w-full flex justify-center items-center"
 				:modules="[SwiperNavigation]"
-				:slidesPerView="3"
+				:slidesPerView="4"
 				:space-between="10"
 				:navigation="true"
 			>
 				<SwiperSlide
-					class="h-full"
+					class="h-20"
 					v-for="project of projectStore.getAllProjects"
 					:key="project.id"
 				>
@@ -38,11 +37,3 @@ const projectStore = useProjectsStore();
 		</section>
 	</div>
 </template>
-
-<style scope>
-.swiper-wrapper {
-	height: 100%;
-	display: flex;
-	align-items: stretch;
-}
-</style>

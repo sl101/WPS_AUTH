@@ -2,7 +2,6 @@
 import { useAuthStore } from "../store/auth";
 import { login } from "../plugin/fetch";
 import { useRouter } from "vue-router";
-import type { AuthStore } from "~/types";
 
 const authStore = useAuthStore();
 const showPassword = ref(false);
@@ -13,36 +12,20 @@ const form = reactive({
 	password: "",
 });
 
-// Отправляем POST-запрос
 const handleSubmit = async () => {
-	const formData = {
-		//email: form.email,
-		//password: form.password,
-		email: "v.zhevaga@gmail.com",
-		password: "Qwerty1!",
-		device_os: "Windows",
-		device_type: "browser",
-		//uniq_device_id: authStore.deviceID,
-		uniq_device_id: "51f0e490-f6b1-11ee-a1ce-d940c222a976",
-	};
-	//console.log("🚀 ~ handleSubmit ~ formData:", formData);
+	const { authData, error } = await login({
+		email: form.email,
+		password: form.password,
+	});
 
-	const response = await login(formData);
-	if (response) {
-		const authData: AuthStore = {
-			email: response?.data.email,
-			name: response?.data.name,
-			auth_token: response?.data.auth_token,
-			unique_id: response?.data.unique_id,
-			uuid: response?.data.uuid,
-			profile_id: response?.profiles[0].id,
-			status: true,
-		};
+	if (authData) {
 		authStore.set(authData);
 		router.push("/");
+		form.email = "";
+		form.password = "";
+	} else if (error) {
+		console.error("Login error:", error);
 	}
-	form.email = "";
-	form.password = "";
 };
 
 const togglePasswordVisibility = () => {
@@ -70,9 +53,10 @@ const togglePasswordVisibility = () => {
 				<div class="relative mt-1">
 					<input
 						v-model="form.email"
-						class="_input border-2 border-cyan-730 transition focus:border-red-620 hover:border-black text-black"
+						class="rounded-md w-full border-2 border-cyan-730 transition focus:border-red-620 hover:border-red-620 text-black py-[6px] px-[16px] outline-none"
 						placeholder=""
 						type="email"
+						required
 					/>
 				</div>
 			</label>
@@ -83,8 +67,9 @@ const togglePasswordVisibility = () => {
 					<input
 						v-model="form.password"
 						placeholder=""
-						class="_input border-2 border-cyan-730 transition focus:border-red-620 hover:border-black text-black"
+						class="rounded-md w-full py-[6px] px-[16px] border-2 border-cyan-730 transition focus:border-red-620 hover:border-red-620 text-black outline-none"
 						:type="showPassword ? 'text' : 'password'"
+						required
 					/>
 
 					<button
@@ -106,7 +91,7 @@ const togglePasswordVisibility = () => {
 				</div>
 			</label>
 			<NuxtLink
-				class="block w-full text-right mt-[-14px] text-cyan-730 outline-none focus:text-red-620 hover:text-white"
+				class="ml-[auto] mt-[-14px] text-cyan-730 outline-none focus:text-red-620 hover:text-white"
 				to="/auth/pass-recovery"
 			>
 				Forgot password?
@@ -114,7 +99,7 @@ const togglePasswordVisibility = () => {
 
 			<button
 				type="submit"
-				class="_button bg-red-620 border-red-620 focus:border-white hover:border-black"
+				class="rounded-md w-full bg-red-620 border-red-620 focus:border-white hover:border-black outline-none py-[6px] px-[16px]"
 			>
 				Log in
 			</button>
@@ -133,14 +118,3 @@ const togglePasswordVisibility = () => {
 		</form>
 	</div>
 </template>
-
-<style scope>
-._input,
-._button {
-	width: 100%;
-	padding: 6px 16px;
-	outline: none;
-	border-radius: 6px;
-}
-</style>
-../plugin/fetch

@@ -13,14 +13,6 @@ export interface HomeResponse {
   }[];
 }
 
-export interface LoginForm{
-		email: string,
-		password: string,
-		device_os: string,
-		device_type: string,
-		uniq_device_id: string,
-}
-
 export interface Project {
   id: string;
   title: string;
