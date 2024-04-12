@@ -25,7 +25,9 @@ export const login = async (formData: { email: string; password: string }) => {
         profile_id: response?.data.profiles[0].id,
         status: true,
       } as any;
+			
 			localStorage.setItem("auth_token", JSON.stringify(authData.auth_token))
+
       return { authData, error: null };
     } else {
       return { authData: null, error: "API returned unsuccessful message" };

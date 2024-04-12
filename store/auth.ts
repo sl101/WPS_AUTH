@@ -1,7 +1,25 @@
 import { defineStore } from 'pinia';
+import { getFromLocalStorage } from '~/plugin/local';
 import type { AuthStore } from '~/types';
 
 const temp_device_id =  "51f0e490-f6b1-11ee-a1ce-d940c222a976";
+
+
+const getSettings = (): { user: AuthStore } =>
+  process.client
+    ? {
+        user: {
+          email: '',
+          name: '',
+          auth_token: getFromLocalStorage("auth_token"),
+          unique_id: '',
+          uuid: '',
+          device_id: temp_device_id,
+          profile_id: '',
+          status: false,
+        },
+      }
+    : defaultValue;
 
 const defaultValue: { user: AuthStore} = {
 	user:{
@@ -17,7 +35,7 @@ const defaultValue: { user: AuthStore} = {
 }
 
 export const useAuthStore = defineStore("auth", {
-	state: ()=> defaultValue,
+	state: ()=> getSettings(),
 	getters: {
 		isAuth: state=> state.user.status,
 		authToken: state => state.user.auth_token,
@@ -26,10 +44,15 @@ export const useAuthStore = defineStore("auth", {
 	},
 	actions:{
 		clear(){
-			this.$patch(defaultValue)
+			this.$patch(getSettings())
 		},
 		set(input: AuthStore){
-			this.$patch({user: input})
+			this.$patch({
+        user: {
+          ...this.user,
+          ...input,
+        },
+      });
 		},
 	}
 })
