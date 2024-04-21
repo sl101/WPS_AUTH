@@ -5,5 +5,5 @@ projectStore.setPagedProjects();
 </script>
 
 <template>
-	<GalleryFavorite />
+  <GalleryFavorite />
 </template>

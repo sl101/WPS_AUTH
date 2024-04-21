@@ -3,12 +3,12 @@ const projectStore = useProjectsStore();
 const authStore = useAuthStore();
 
 if (authStore.authToken) {
-	projectStore.setPagedProjects();
+  projectStore.setPagedProjects();
 } else {
-	projectStore.setAllProjects();
+  projectStore.setAllProjects();
 }
 </script>
 
 <template>
-	<GalleryHome />
+  <GalleryHome />
 </template>

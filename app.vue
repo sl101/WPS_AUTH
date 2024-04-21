@@ -3,6 +3,6 @@ import "./assets/main.css";
 </script>
 
 <template>
-	<Header />
-	<NuxtPage />
+  <TheHeader />
+  <NuxtPage />
 </template>

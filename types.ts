@@ -20,13 +20,23 @@ export interface Project {
   isFavorite?: boolean;
 }
 
-export interface AuthStore{
-	email: string,
-	name: string,
-	auth_token: string,
-	unique_id: string,
-	uuid: string,
-	device_id: string,
-	profile_id:string,
-	status: boolean
+export interface AuthStore {
+  email: string;
+  name: string;
+  auth_token: string;
+  unique_id: string;
+  uuid: string;
+  device_id: string;
+  profile_id: string;
+  status: boolean;
+}
+
+export interface AuthResponce {
+  email: string;
+  name: string;
+  auth_token: string;
+  unique_id: string;
+  uuid: string;
+  profile_id: string;
+  status: boolean;
 }

@@ -1,14 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer components {
-	._container {
-		width: min(100%, 1950px);
-		padding-inline: 15px;
-		margin-inline: auto;
-	}
-
-
+  ._container {
+    width: min(100%, 1950px);
+    padding-inline: 15px;
+    margin-inline: auto;
+  }
 }
