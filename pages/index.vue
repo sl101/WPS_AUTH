@@ -1,12 +1,14 @@
 <script setup lang="ts">
-const projectStore = useProjectsStore();
+const productsStore = useProductsStore();
 const authStore = useAuthStore();
 
-if (authStore.authToken) {
-  projectStore.setPagedProjects();
-} else {
-  projectStore.setAllProjects();
-}
+onMounted(async () => {
+  if (authStore.authToken) {
+		productsStore.setMemberProducts();
+	} else {
+		productsStore.setProducts();
+	}
+});
 </script>
 
 <template>

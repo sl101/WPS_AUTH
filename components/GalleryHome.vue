@@ -1,5 +1,11 @@
 <script setup lang="ts">
-const projectStore = useProjectsStore();
+import { computed } from 'vue';
+import { useProductsStore } from '../store/products';
+import ProductItem from "./ProductItem.vue";
+
+const produtsStore = useProductsStore();
+const products =	computed(() => produtsStore.getAllProducts);
+
 </script>
 
 <template>
@@ -17,9 +23,11 @@ const projectStore = useProjectsStore();
     />
 
     <section
-      class="_container min-w-full relative flex justify-between items-center gap-2 z-20"
+		
+      class="_container min-w-full relative flex justify-center items-center gap-2 z-20"
     >
       <Swiper
+				v-if="products.length > 0"
         class="w-full flex justify-center items-center"
         :modules="[SwiperNavigation]"
         :slides-per-view="4"
@@ -27,13 +35,18 @@ const projectStore = useProjectsStore();
         :navigation="true"
       >
         <SwiperSlide
-          v-for="project of projectStore.getAllProjects"
-          :key="project.id"
+          v-for="product of products"
+          :key="product.id"
           class="h-20"
         >
-          <ProjectItem :project="project" />
+          <ProductItem :product="product" />
         </SwiperSlide>
       </Swiper>
+			<p 
+			v-else 
+			class="text-white text-xl ">Loading...</p>
     </section>
+
   </div>
 </template>
+section

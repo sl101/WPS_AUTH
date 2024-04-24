@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useAuthStore } from "../store/auth";
-import { login } from "../plugin/fetch";
 import { useRouter } from "vue-router";
 
 const authStore = useAuthStore();
@@ -12,19 +11,21 @@ const form = reactive({
   password: "",
 });
 
-const handleSubmit = async () => {
-  const { authData, error } = await login({
-    email: form.email,
-    password: form.password,
-  });
 
-  if (authData) {
-    authStore.set(authData);
+
+const handleSubmit = async () => {
+	await authStore.singIn({
+		email: form.email,
+    password: form.password,
+  })
+	
+	//TODO: что то не так работает с перегрузкой
+	const isAuth = authStore.isAuth
+
+	if (isAuth) {
     router.push("/");
     form.email = "";
     form.password = "";
-  } else if (error) {
-    console.error("Login error:", error);
   }
 };
 

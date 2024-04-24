@@ -13,7 +13,19 @@ export interface HomeResponse {
   }[];
 }
 
+export interface SingInForm { 
+	email: string; 
+	password: string 
+}
+
 export interface Project {
+  id: string;
+  title: string;
+  image?: string;
+  isFavorite?: boolean;
+}
+
+export interface Product {
   id: string;
   title: string;
   image?: string;
