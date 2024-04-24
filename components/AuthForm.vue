@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useAuthStore } from "../store/auth";
 import { useRouter } from "vue-router";
+import { watch } from 'vue';
 
 const authStore = useAuthStore();
 const showPassword = ref(false);
@@ -11,22 +12,19 @@ const form = reactive({
   password: "",
 });
 
-
+watch(() => ({ isAuth: authStore.isAuth }), (newValue) => {
+  if (newValue.isAuth) {
+    form.email = "";
+    form.password = "";
+    router.push("/");
+  }
+});
 
 const handleSubmit = async () => {
 	await authStore.singIn({
 		email: form.email,
     password: form.password,
   })
-	
-	//TODO: что то не так работает с перегрузкой
-	const isAuth = authStore.isAuth
-
-	if (isAuth) {
-    router.push("/");
-    form.email = "";
-    form.password = "";
-  }
 };
 
 const togglePasswordVisibility = () => {
